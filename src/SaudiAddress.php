@@ -57,9 +57,9 @@ class SaudiAddress
      * @param   string   $apiSubscription
      * @return  SaudiAddress
      */
-    public static function make($apiKey = null, $apiSubscription = 'Development', $cache)
+    public static function make($apiKey = null, $apiSubscription = 'Development', $cache = true)
     {
-        return new static($apiKey, $apiSubscription = 'Development', $cache);
+        return new static($apiKey, $apiSubscription, $cache);
     }
 
     /**
@@ -115,29 +115,6 @@ class SaudiAddress
         $this->config->setApiKey($apiKey);
 
         return $this;
-    }
-
-    /**
-     * Returns the application's information.
-     *
-     * @return  array|null
-     */
-    public function getAppInfo()
-    {
-        return $this->config->getAppInfo();
-    }
-
-    /**
-     * Sets the application's information.
-     *
-     * @param   string  $appName
-     * @param   string  $appVersion
-     * @param   string  $apiSubscription
-     * @return  \AliAlharthi\SaudiAddress\ConfigInterface
-     */
-    public function setAppInfo($appName, $appVersion = null, $apiSubscription = 'Development')
-    {
-        return $this->config->setAppInfo($appName, $appVersion, $apiSubscription);
     }
 
     /**
