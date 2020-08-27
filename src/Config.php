@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.2
+ * @version    1.3
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -44,9 +44,10 @@ class Config implements ConfigInterface
     protected $apiSubscription;
 
     /**
+     * Enabling Cache
      *
      */
-    protected $addressUri;
+    protected $cache = true;
 
     /**
      * The application's information.
@@ -63,11 +64,12 @@ class Config implements ConfigInterface
      * @param   string  $apiSubscription
      * @return  void
      */
-    public function __construct($version, $apiKey, $apiSubscription = 'Development')
+    public function __construct($version, $apiKey, $apiSubscription = 'Development', $cache = true)
     {
         $this->setVersion($version);
         $this->setApiKey($apiKey ?: self::getEnvVariable('SNA_API_KEY', ''));
-        $this->setApiSubscription($apiSubscription);
+        $this->setApiSubscription($apiSubscription ?: self::getEnvVariable('SNA_API_SUBSCRIPTION', 'Development'));
+        $this->setCache($cache ?: self::getEnvVariable('SNA_CACHE', true));
     }
 
     /**
@@ -160,29 +162,26 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Returns the application's information.
+     * Returns the cache status.
      *
-     * @return array
+     * @return  bool
      */
-    public function getAppInfo()
+    public function getCache()
     {
-        return $this->appInfo;
+        return $this->cache;
     }
 
     /**
-     * Sets the application's information.
+     * Sets the cache status.
      *
-     * @param   string  $appVersion
-     * @param   string  $apiSubscription
+     * @param   bool  $cache
      * @return  Config
      */
-    public function setAppInfo($appVersion = null, $apiSubscription = 'Development')
+    public function setCache($cache)
     {
-        $this->appInfo = [
-            'version'       => $appVersion,
-            'Subscription'  => $apiSubscription
-        ];
+        $this->cache = $cache;
 
         return $this;
     }
+
 }

@@ -2,6 +2,6 @@
 
 All notable changes to `saudiaddress` will be documented in this file
 
-## 1.2
+## 1.3
 
-- initial release
+- Make cache optional - true by defualt.

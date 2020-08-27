@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.2
+ * @version    1.3
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -52,7 +52,7 @@ class Regions extends Api
     public function all($lang = 'A')
     {
         $cache = $this->file . strtolower($lang) . '.data';
-        if ((file_exists($cache))) {
+        if ($this->config->getCache() && file_exists($cache)) {
             $this->response = unserialize(file_get_contents($cache));
         }
         if ($this->response == null) {
@@ -60,9 +60,11 @@ class Regions extends Api
                 'v3.1/lookup/regions',
                 $lang
             );
-            (!file_exists($this->cacheDir)) ?
-            mkdir($this->cacheDir, 0777, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
-            file_put_contents($cache, serialize($response['Regions']));
+            if($this->config->getCache()){
+                (!file_exists($this->cacheDir)) ?
+                mkdir($this->cacheDir, 0777, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
+                file_put_contents($cache, serialize($response['Regions']));
+            }
             $this->response = $response['Regions'];
         }
 

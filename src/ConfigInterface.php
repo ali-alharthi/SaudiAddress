@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.2
+ * @version    1.3
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -66,6 +66,21 @@ interface ConfigInterface
      * @return  ConfigInterface
      */
     public function setApiSubscription($apiSubscription);
+
+    /**
+     * Returns the cache status.
+     *
+     * @return  bool
+     */
+    public function getCache();
+
+    /**
+     * Sets the cache status.
+     *
+     * @param   bool  $cache
+     * @return  Config
+     */
+    public function setCache($cache);
 
     /**
      * Returns the application's information.

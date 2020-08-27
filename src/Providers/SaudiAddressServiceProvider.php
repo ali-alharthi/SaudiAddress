@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.2
+ * @version    1.3
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -58,7 +58,9 @@ class SaudiAddressServiceProvider extends ServiceProvider
 
             $apiSubscription = $config['api_subscription '] ?? 'Development';
 
-            return new SaudiAddress($apiKey, $apiSubscription);
+            $cache = $config['cache '] ?? true;
+
+            return new SaudiAddress($apiKey, $apiSubscription, $cache);
         });
 
         $this->app->alias('saudiaddress', SaudiAddress::class);

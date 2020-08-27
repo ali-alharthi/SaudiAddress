@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.2
+ * @version    1.3
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -54,7 +54,7 @@ class Geo extends Api
     public function coordinates($latitude, $longitude, $lang = 'A')
     {
         $cache = $this->file . $latitude . '_' . $longitude . '_' . strtolower($lang) . '.data';
-        if (file_exists($cache)) {
+        if ($this->config->getCache() && file_exists($cache)) {
             $this->response = unserialize(file_get_contents($cache));
         }
 
@@ -68,11 +68,12 @@ class Geo extends Api
                 ]
             );
 
-            (!file_exists($this->cacheDir)) ?
-            mkdir($this->cacheDir, 0755, false):
-            ((file_exists($cache)) ? unlink($cache):touch($cache));
-
-            file_put_contents($cache, serialize($response['Addresses'][0]));
+            if($this->config->getCache()){
+                (!file_exists($this->cacheDir)) ?
+                mkdir($this->cacheDir, 0755, false):
+                ((file_exists($cache)) ? unlink($cache):touch($cache));
+                file_put_contents($cache, serialize($response['Addresses'][0]));
+            }
             $this->response = $response['Addresses'][0];
         }
 

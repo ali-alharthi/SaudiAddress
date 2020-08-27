@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.2
+ * @version    1.3
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -54,7 +54,7 @@ class Address extends Api
     public function find($address, $page = 1, $lang = 'A')
     {
         $cache = $this->file . preg_replace('/[^a-zA-Z0-9_]/', '_', $address) . '_' . strtolower($lang) . '.data';
-        if ((file_exists($this->file))) {
+        if ($this->config->cache && file_exists($this->file)) {
             $this->response = unserialize(file_get_contents($this->file));
         }
         if ($this->response == null) {
@@ -88,10 +88,13 @@ class Address extends Api
                 }
             }
 
-            (!file_exists($this->cacheDir)) ?
-                mkdir($this->cacheDir, 0777, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
+            if($this->config->cache){
+                (!file_exists($this->cacheDir)) ?
+                    mkdir($this->cacheDir, 0777, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
+                file_put_contents($cache, serialize($addresses));
+            }
             $this->response = $addresses;
-            file_put_contents($cache, serialize($addresses));
+
         }
 
         return $this;

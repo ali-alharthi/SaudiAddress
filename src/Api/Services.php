@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.2
+ * @version    1.3
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -53,7 +53,7 @@ class Services extends Api
     {
 
         $cache = $this->file . 'categories_' . strtolower($lang) . '.data';
-        if ((file_exists($cache))) {
+        if ($this->config->getCache() && file_exists($cache)) {
             $this->response = unserialize(file_get_contents($cache));
         }
         if ($this->response == null) {
@@ -61,10 +61,12 @@ class Services extends Api
                 'v3.1/lookup/service-categories',
                 $lang
             );
-            (!file_exists($this->cacheDir)) ?
-                mkdir($this->cacheDir, 0777, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
+            if($this->config->getCache()){
+                (!file_exists($this->cacheDir)) ?
+                    mkdir($this->cacheDir, 0777, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
+                file_put_contents($cache, serialize($this->response));
+            }
             $this->response = $response['ServiceCategories'];
-            file_put_contents($cache, serialize($this->response));
         }
 
         return $this;
@@ -105,7 +107,7 @@ class Services extends Api
         if ((file_exists($cache))) {
             $this->response = unserialize(file_get_contents($cache));
         }
-        if ($this->response == null) {
+        if ($this->config->getCache() && $this->response == null) {
             $response = $this->_get(
                 'v3.1/lookup/services-sub-categories',
                 $lang,
@@ -114,10 +116,12 @@ class Services extends Api
                 ],
 
             );
-            (!file_exists($this->cacheDir)) ?
-                mkdir($this->cacheDir, 0777, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
+            if($this->config->getCache()){
+                (!file_exists($this->cacheDir)) ?
+                    mkdir($this->cacheDir, 0777, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
+                file_put_contents($cache, serialize($this->response));
+            }
             $this->response = $response['ServiceSubCategories'];
-            file_put_contents($cache, serialize($this->response));
         }
 
         return $this;

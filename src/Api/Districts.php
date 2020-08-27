@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.2
+ * @version    1.3
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -54,7 +54,7 @@ class Districts extends Api
     {
 
         $cache = $this->file . $cityId . '_' . strtolower($lang) .  '.data';
-        if (file_exists($cache)) {
+        if ($this->config->getCache() && file_exists($cache)) {
             $this->response = unserialize(file_get_contents($cache));
         }
         if ($this->response == null) {
@@ -65,12 +65,11 @@ class Districts extends Api
                     'cityid' => $cityId
                 ]
             );
-
-            (!file_exists($this->cacheDir)) ?
-            mkdir($this->cacheDir, 0755, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
-
-            file_put_contents($cache, serialize($response['Districts']));
-
+            if ($this->config->getCache()) {
+                (!file_exists($this->cacheDir)) ?
+                mkdir($this->cacheDir, 0755, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
+                file_put_contents($cache, serialize($response['Districts']));
+            }
             $this->response = $response['Districts'];
         }
 

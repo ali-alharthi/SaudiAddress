@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.2
+ * @version    1.3
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -54,7 +54,7 @@ class Cities extends Api
     {
         $cache = ($regionId == -1) ? $this->file . 'all_' . strtolower($lang) .'.data' : $this->file . $regionId . '_'. strtolower($lang) .'.data';
         $this->currentLang = $lang;
-        if (file_exists($cache)) {
+        if ($this->config->getCache() && file_exists($cache)) {
             $this->response = unserialize(file_get_contents($cache));
         }
 
@@ -66,9 +66,11 @@ class Cities extends Api
                     'regionid' => $regionId
                 ]
             );
-            (!file_exists($this->cacheDir)) ?
-            mkdir($this->cacheDir, 0777, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
-            file_put_contents($cache, serialize($response['Cities']));
+            if ($this->config->getCache()) {
+                (!file_exists($this->cacheDir)) ?
+                mkdir($this->cacheDir, 0777, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
+                file_put_contents($cache, serialize($response['Cities']));
+            }
             $this->response = $response['Cities'];
         }
 

@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.2
+ * @version    1.3
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -29,7 +29,7 @@ class SaudiAddress
      *
      * @var string
      */
-    const VERSION = 1.2;
+    const VERSION = 1.3;
 
     /**
      * The Config repository instance.
@@ -45,9 +45,9 @@ class SaudiAddress
      * @param   string  $apiSubscription
      * @return  void
      */
-    public function __construct($apiKey = null, $apiSubscription = 'Development')
+    public function __construct($apiKey = null, $apiSubscription = 'Development', $cache = true)
     {
-        $this->config = new Config(self::VERSION, $apiKey, $apiSubscription);
+        $this->config = new Config(self::VERSION, $apiKey, $apiSubscription, $cache);
     }
 
     /**
@@ -57,9 +57,9 @@ class SaudiAddress
      * @param   string   $apiSubscription
      * @return  SaudiAddress
      */
-    public static function make($apiKey = null, $apiSubscription = 'Development')
+    public static function make($apiKey = null, $apiSubscription = 'Development', $cache)
     {
-        return new static($apiKey, $apiSubscription = 'Development');
+        return new static($apiKey, $apiSubscription = 'Development', $cache);
     }
 
     /**

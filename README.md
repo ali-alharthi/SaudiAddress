@@ -29,6 +29,7 @@ However, you need to add the following to the `config/services.php` file:
     'api_key' => env('SNA_API_KEY', null),
     'api_subscription' =>
     env('SNA_API_SUBSCRIPTION', 'Development'),
+    'cache' => env('SNA_CACHE', true),
 ],
 ```
 
@@ -37,9 +38,10 @@ Then, append the following to the `.env` file:
 ```php
 SNA_API_KEY=YOUR-API-KEY-HERE
 SNA_API_SUBSCRIPTION=Development
+SNA_CACHE=false
 ```
 
-Replace `YOUR-API-KEY-HERE` with your SNA API key and `Development` with your SNA subscription type.
+Replace `YOUR-API-KEY-HERE` with your SNA API key, `Development` with your SNA subscription type and `SNA_CACHE` with true or false (enable/disable cache).
 
 After that you can use the facade: `AliAlharthi\SaudiAddress\Facades\SaudiAddressFacade` to access the library.
 
@@ -50,8 +52,7 @@ After that you can use the facade: `AliAlharthi\SaudiAddress\Facades\SaudiAddres
 ``` php
 use AliAlharthi\SaudiAddress\SaudiAddress;
 
-
-$saudi = SaudiAddress::make('API-KEY', 'Subscription');
+$saudi = SaudiAddress::make('API-KEY', 'Subscription', false); // Cache is disabled
 $regions = $saudi->regions()->all('E')->get();
 ```
 
@@ -59,7 +60,6 @@ $regions = $saudi->regions()->all('E')->get();
 
 ``` php
 use AliAlharthi\SaudiAddress\Facades\SaudiAddressFacade;
-
 
 $regions = SaudiAddressFacade::regions()->all('E')->get();
 ```
