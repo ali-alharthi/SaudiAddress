@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.3
+ * @version    1.2
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -46,15 +46,9 @@ class Config implements ConfigInterface
     /**
      * Enabling Cache
      *
+     * @var bool
      */
     protected $cache = true;
-
-    /**
-     * The application's information.
-     *
-     * @var array|null
-     */
-    protected $appInfo;
 
     /**
      * Constructor.

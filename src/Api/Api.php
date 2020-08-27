@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.3
+ * @version    1.2
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -34,7 +34,7 @@ use RuntimeException;
 
 abstract class Api implements ApiInterface
 {
-    const VERSION = 1.3;
+    const VERSION = 1.2;
     const API_BASE_URL = 'https://apina.address.gov.sa/NationalAddress/';
     const USER_AGENT_SUFFIX = "alharthi-saudi-address-api-php-client/";
     const IN_CHARACTER_ENCODING = 'windows-1256';
