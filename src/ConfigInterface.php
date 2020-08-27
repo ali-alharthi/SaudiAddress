@@ -81,21 +81,4 @@ interface ConfigInterface
      * @return  Config
      */
     public function setCache($cache);
-
-    /**
-     * Returns the application's information.
-     *
-     * @return void
-     */
-    public function getAppInfo();
-
-    /**
-     * Sets the application's information.
-     *
-     * @param   string  $appVersion
-     * @param   string  $apiSubscription
-     * @return  ConfigInterface
-     */
-    public function setAppInfo($appVersion = null, $apiSubscription = 'Development');
-
 }
