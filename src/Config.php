@@ -68,8 +68,8 @@ class Config implements ConfigInterface
     {
         $this->setVersion($version);
         $this->setApiKey($apiKey ?: self::getEnvVariable('SNA_API_KEY', ''));
-        $this->setApiSubscription($apiSubscription ?: self::getEnvVariable('SNA_API_SUBSCRIPTION', 'Development'));
-        $this->setCache($cache ?: self::getEnvVariable('SNA_CACHE', true));
+        $this->setApiSubscription($apiSubscription);
+        $this->setCache($cache);
     }
 
     /**
@@ -183,5 +183,4 @@ class Config implements ConfigInterface
 
         return $this;
     }
-
 }
