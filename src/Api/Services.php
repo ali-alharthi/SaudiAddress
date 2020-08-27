@@ -64,7 +64,7 @@ class Services extends Api
             if($this->config->getCache()){
                 (!file_exists($this->cacheDir)) ?
                     mkdir($this->cacheDir, 0777, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
-                file_put_contents($cache, serialize($this->response));
+                file_put_contents($cache, serialize($response['ServiceCategories']));
             }
             $this->response = $response['ServiceCategories'];
         }
@@ -119,7 +119,7 @@ class Services extends Api
             if($this->config->getCache()){
                 (!file_exists($this->cacheDir)) ?
                     mkdir($this->cacheDir, 0777, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
-                file_put_contents($cache, serialize($this->response));
+                file_put_contents($cache, serialize($response['ServiceSubCategories']));
             }
             $this->response = $response['ServiceSubCategories'];
         }
