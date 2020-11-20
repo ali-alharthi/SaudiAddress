@@ -169,7 +169,7 @@ abstract class Api implements ApiInterface
      * Return a value from cache.
      *
      * @param   string  $file
-     * @return  string|null
+     * @return  array|null
      */
     protected function cacheValue($file)
     {
