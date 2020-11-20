@@ -53,9 +53,9 @@ class Services extends Api
     {
 
         $cache = $this->file . 'categories_' . strtolower($lang) . '.data';
-        if ($this->config->getCache() && file_exists($cache)) {
-            $this->response = unserialize(file_get_contents($cache));
-        }
+
+        $this->response = $this->cacheValue($cache);
+
         if ($this->response == null) {
             $response = $this->_get(
                 'v3.1/lookup/service-categories',
@@ -107,17 +107,16 @@ class Services extends Api
     public function sub(int $serviceId = 1, $lang = 'A')
     {
         $cache = $this->file . 'sub_' . $serviceId . '_' . strtolower($lang) . '.data';
-        if ((file_exists($cache))) {
-            $this->response = unserialize(file_get_contents($cache));
-        }
+
+        $this->response = $this->cacheValue($cache);
+
         if ($this->config->getCache() && $this->response == null) {
             $response = $this->_get(
                 'v3.1/lookup/services-sub-categories',
                 $lang,
                 [
-                    'servicecategoryid' => $serviceId,
-                ],
-
+                    'servicecategoryid' => $serviceId
+                ]
             );
             if ($response['success'] == false) {
                 return;
@@ -164,9 +163,7 @@ class Services extends Api
      */
     public function get()
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call categories() or sub() methods first.");
-        }
+        $this->check();
 
         return $this->response;
     }
@@ -179,9 +176,7 @@ class Services extends Api
      */
     public function getId(int $serviceId)
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call categories() or sub() methods first.");
-        }
+        $this->check();
 
         $key = array_search($serviceId, array_column($this->response, 'Id'));
 
@@ -218,9 +213,7 @@ class Services extends Api
      */
     public function getName($serviceName)
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call categories() or sub() methods first.");
-        }
+        $this->check();
 
         $key = array_search($serviceName, array_column($this->response, 'Name'));
 
@@ -258,5 +251,18 @@ class Services extends Api
     public function serviceName($serviceName)
     {
         return $this->getName($serviceName);
+    }
+
+    /**
+     * Check if all() method was called first.
+     *
+     * @return  void
+     * @throws  \BadMethodCallException
+     */
+    protected function check()
+    {
+        if ($this->response == null) {
+            throw new \BadMethodCallException("You need to call categories() or sub() methods first.");
+        }
     }
 }

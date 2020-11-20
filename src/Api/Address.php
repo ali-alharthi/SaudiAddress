@@ -54,9 +54,9 @@ class Address extends Api
     public function find($address, $page = 1, $lang = 'A')
     {
         $cache = $this->file . preg_replace('/[^a-zA-Z0-9_]/', '_', $address) . '_' . strtolower($lang) . '.data';
-        if ($this->config->getCache() && file_exists($this->file)) {
-            $this->response = unserialize(file_get_contents($this->file));
-        }
+
+        $this->response = $this->cacheValue($cache);
+
         if ($this->response == null) {
             $response = $this->_get(
                 'v4/Address/address-free-text',
@@ -109,9 +109,7 @@ class Address extends Api
      */
     public function all()
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call find() method first.");
-        }
+        $this->check();
 
         return $this->response;
     }
@@ -148,5 +146,18 @@ class Address extends Api
         );
 
         return (bool) $response['addressfound'];
+    }
+
+    /**
+     * Check if find() method was called first.
+     *
+     * @return  void
+     * @throws  \BadMethodCallException
+     */
+    protected function check()
+    {
+        if ($this->response == null) {
+            throw new \BadMethodCallException("You need to call find() method first.");
+        }
     }
 }

@@ -43,7 +43,6 @@ class SaudiAddress
      *
      * @param   string  $apiKey
      * @param   string  $apiSubscription
-     * @return  void
      */
     public function __construct($apiKey = null, $apiSubscription = 'Development', $cache = false)
     {

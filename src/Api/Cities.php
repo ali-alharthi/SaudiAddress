@@ -44,6 +44,13 @@ class Cities extends Api
     protected $file = __DIR__ . '/cache/' . 'cities_';
 
     /**
+     * The current language.
+     *
+     * @var string|null
+     */
+    protected $currentLang = 'A';
+
+    /**
      * Returns a list of all the cities in a region.
      *
      * @param   int     $regionId
@@ -53,10 +60,10 @@ class Cities extends Api
     public function all($regionId = -1, $lang = 'A')
     {
         $cache = ($regionId == -1) ? $this->file . 'all_' . strtolower($lang) .'.data' : $this->file . $regionId . '_'. strtolower($lang) .'.data';
+
         $this->currentLang = $lang;
-        if ($this->config->getCache() && file_exists($cache)) {
-            $this->response = unserialize(file_get_contents($cache));
-        }
+
+        $this->response = $this->cacheValue($cache);
 
         if ($this->response == null) {
             $response = $this->_get(
@@ -84,9 +91,7 @@ class Cities extends Api
      */
     public function get()
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call all() method first.");
-        }
+        $this->check();
 
         return $this->response['Cities'];
     }
@@ -99,9 +104,7 @@ class Cities extends Api
      */
     public function getId(int $cityId)
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call all() method first.");
-        }
+        $this->check();
 
         $key = array_search($cityId, array_column($this->response['Cities'], 'Id'));
 
@@ -138,11 +141,9 @@ class Cities extends Api
      */
     public function getName($cityName)
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call all() method first.");
-        }
+        $this->check();
 
-        $cityName = ($this->currentLang == 'E') ? strtoupper($cityName): $cityName;
+        $cityName = ($this->currentLang == 'E') ? ucwords($cityName): $cityName;
 
         $key = array_search($cityName, array_column($this->response['Cities'], 'Name'));
 
@@ -190,14 +191,13 @@ class Cities extends Api
      */
     public function getGov($govName)
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call all() method first.");
-        }
+        $this->check();
 
         $govName = ($this->currentLang == 'E') ? $this->prepareGovernorateName($govName) : $govName;
 
         $keys = array_keys(array_combine(array_keys($this->response['Cities']), array_column($this->response['Cities'], 'GovernorateName')), $govName);
 
+        $findings = array();
         foreach ($keys as $key) {
             $findings []= $this->response['Cities'][$key];
         }
@@ -269,5 +269,18 @@ class Cities extends Api
         }
 
         return ucwords($governorateName);
+    }
+
+    /**
+     * Check if all() method was called first.
+     *
+     * @return  void
+     * @throws  \BadMethodCallException
+     */
+    protected function check()
+    {
+        if ($this->response == null) {
+            throw new \BadMethodCallException("You need to call all() method first.");
+        }
     }
 }

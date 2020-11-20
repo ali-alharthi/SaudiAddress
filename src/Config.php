@@ -55,7 +55,6 @@ class Config implements ConfigInterface
      *
      * @param   string  $apiKey
      * @param   string  $apiSubscription
-     * @return  void
      */
     public function __construct($apiKey, $apiSubscription = 'Development', $cache = false)
     {

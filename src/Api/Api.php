@@ -50,7 +50,6 @@ abstract class Api implements ApiInterface
      * Constructor.
      *
      * @param   \AliAlharthi\SaudiAddress\ConfigInterface  $config
-     * @return  void
      */
     public function __construct(ConfigInterface $config)
     {
@@ -74,7 +73,7 @@ abstract class Api implements ApiInterface
      * @param   string  $lang
      * @param   array   $parameters
      * @param   bool    $encode
-     * @return  null/array
+     * @return  null|array
      */
     public function _get($url = null, $lang = 'A', $parameters = [], $encode = true)
     {
@@ -89,7 +88,8 @@ abstract class Api implements ApiInterface
      * @param   string  $lang
      * @param   array   $parameters
      * @param   bool    $encode
-     * @return  null/array
+     * @return  null|array
+     * @throws  AliAlharthi\SaudiAddress\Exception\Handler
      */
     public function execute($httpMethod, $url, $lang = 'A', array $parameters = [], $encode = true)
     {
@@ -163,5 +163,20 @@ abstract class Api implements ApiInterface
     protected function generateUserAgent()
     {
         return self::USER_AGENT_SUFFIX . $this->config->getVersion();
+    }
+
+    /**
+     * Return a value from cache.
+     *
+     * @param   string  $file
+     * @return  string|null
+     */
+    protected function cacheValue($file)
+    {
+        if ($this->config->getCache() && file_exists($file)) {
+            return unserialize(file_get_contents($file));
+        }
+
+        return null;
     }
 }

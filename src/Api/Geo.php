@@ -54,9 +54,8 @@ class Geo extends Api
     public function coordinates($latitude, $longitude, $lang = 'A')
     {
         $cache = $this->file . $latitude . '_' . $longitude . '_' . strtolower($lang) . '.data';
-        if ($this->config->getCache() && file_exists($cache)) {
-            $this->response = unserialize(file_get_contents($cache));
-        }
+
+        $this->response = $this->cacheValue($cache);
 
         if ($this->response == null) {
             $response = $this->_get(
@@ -113,9 +112,7 @@ class Geo extends Api
      */
     public function get()
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call coordinates() method first.");
-        }
+        $this->check();
 
         return $this->response['Addresses'][0];
     }
@@ -127,9 +124,7 @@ class Geo extends Api
      */
     public function getCity()
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call coordinates() method first.");
-        }
+        $this->check();
 
         return $this->response['Addresses'][0]['City'];
     }
@@ -151,9 +146,7 @@ class Geo extends Api
      */
     public function getAddressOne()
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call coordinates() method first.");
-        }
+        $this->check();
 
         return $this->response['Addresses'][0]['Address1'];
     }
@@ -175,9 +168,7 @@ class Geo extends Api
      */
     public function getAddressTwo()
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call coordinates() method first.");
-        }
+        $this->check();
 
         return $this->response['Addresses'][0]['Address2'];
     }
@@ -199,9 +190,7 @@ class Geo extends Api
      */
     public function getStreet()
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call coordinates() method first.");
-        }
+        $this->check();
 
         return $this->response['Addresses'][0]['Street'];
     }
@@ -223,9 +212,7 @@ class Geo extends Api
      */
     public function getRegion()
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call coordinates() method first.");
-        }
+        $this->check();
 
         return $this->response['Addresses'][0]['RegionName'];
     }
@@ -247,9 +234,7 @@ class Geo extends Api
      */
     public function getDistrict()
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call coordinates() method first.");
-        }
+        $this->check();
 
         return $this->response['Addresses'][0]['District'];
     }
@@ -271,9 +256,7 @@ class Geo extends Api
      */
     public function getBuildingNumber()
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call coordinates() method first.");
-        }
+        $this->check();
 
         return $this->response['Addresses'][0]['BuildingNumber'];
     }
@@ -295,9 +278,7 @@ class Geo extends Api
      */
     public function getPostCode()
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call coordinates() method first.");
-        }
+        $this->check();
 
         return $this->response['Addresses'][0]['PostCode'];
     }
@@ -339,9 +320,7 @@ class Geo extends Api
      */
     public function getAdditionalNumber()
     {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call coordinates() method first.");
-        }
+        $this->check();
 
         return $this->response['Addresses'][0]['AdditionalNumber'];
     }
@@ -356,4 +335,16 @@ class Geo extends Api
         return $this->getAdditionalNumber();
     }
 
+    /**
+     * Check if coordinates() method was called first.
+     *
+     * @return  void
+     * @throws  \BadMethodCallException
+     */
+    protected function check()
+    {
+        if ($this->response == null) {
+            throw new \BadMethodCallException("You need to call coordinates() method first.");
+        }
+    }
 }

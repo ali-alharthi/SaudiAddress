@@ -61,7 +61,6 @@ class Handler
      * Constructor.
      *
      * @param   \GuzzleHttp\Exception\ClientException  $exception
-     * @return  void
      * @throws  \AliAlharthi\SaudiAddress\Exception\SaudiAddressException
      */
     public function __construct(ClientException $exception)
