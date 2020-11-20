@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.2
+ * @version    1.3
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -27,7 +27,7 @@ class Config implements ConfigInterface
      *
      * @var string
      */
-    protected $version = 1.2;
+    protected $version = 1.3;
 
     /**
      * The Saudi National Address API key.
