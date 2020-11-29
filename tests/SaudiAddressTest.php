@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.2
+ * @version    1.3
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -78,7 +78,7 @@ class SaudiAddressTest extends \PHPUnit\Framework\TestCase
     public function it_can_get_the_current_package_version()
     {
         $version = $this->saudi->getVersion();
-        $this->assertSame(1.2, $version);
+        $this->assertSame(1.3, $version);
     }
 
     /** @test */
