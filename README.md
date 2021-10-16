@@ -100,7 +100,7 @@ $verified = $saudi->address()->verify('RAHA3443', 'E'); // return false
 ***Short address should consists of 4 letters followed by 4 numbers***
 ```Example: ABCD1234```
 
-*An exception will be thrown if the incorrect short address was provided*
+*An exception will be thrown if an incorrect short address was provided*
 
 
 ----
