@@ -124,7 +124,7 @@ $verified = $saudi->shortAddress('RAHA3443')->verify(); // return false
 
 
 ```php
-$address = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->get();
+$address = $saudi->geo(24.65017630, 46.71670870)->get();
 ```
 
 `coordinates()` aliases:  `coords()` and `location()`.
@@ -134,7 +134,7 @@ $address = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->get();
     - parameter `24.65017630` represents latitude and parameter `46.71670870` represents longitude.
 
 ```php
-$city = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getCity();
+$city = $saudi->geo(24.65017630, 46.71670870)->getCity();
 ```
 
 `getCity()` aliases:  `city()`.
@@ -144,7 +144,7 @@ $city = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getCity();
     - parameter `24.65017630` represents latitude and parameter `46.71670870` represents longitude.
 
 ```php
-$addressOne = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getAddressOne();
+$addressOne = $saudi->geo(24.65017630, 46.71670870)->getAddressOne();
 ```
 
 `getAddressOne()` aliases:  `addressOne()`.
@@ -154,7 +154,7 @@ $addressOne = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getAddr
     - parameter `24.65017630` represents latitude and parameter `46.71670870` represents longitude.
 
 ```php
-$addressTwo = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getAddressTwo();
+$addressTwo = $saudi->geo(24.65017630, 46.71670870)->getAddressTwo();
 ```
 
 `getAddressTwo()` aliases:  `addressTwo()`.
@@ -164,7 +164,7 @@ $addressTwo = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getAddr
     - parameter `24.65017630` represents latitude and parameter `46.71670870` represents longitude.
 
 ```php
-$street = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getStreet();
+$street = $saudi->geo(24.65017630, 46.71670870)->getStreet();
 ```
 
 `getStreet()` aliases:  `street()`.
@@ -174,7 +174,7 @@ $street = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getStreet()
     - parameter `24.65017630` represents latitude and parameter `46.71670870` represents longitude.
 
 ```php
-$region = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getRegion();
+$region = $saudi->geo(24.65017630, 46.71670870)->getRegion();
 ```
 
 `getRegion()` aliases:  `region()`.
@@ -184,7 +184,7 @@ $region = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getRegion()
     - parameter `24.65017630` represents latitude and parameter `46.71670870` represents longitude.
 
 ```php
-$district = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getDistrict();
+$district = $saudi->geo(24.65017630, 46.71670870)->getDistrict();
 ```
 
 `getDistrict()` aliases:  `district()`.
@@ -194,7 +194,7 @@ $district = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getDistri
     - parameter `24.65017630` represents latitude and parameter `46.71670870` represents longitude.
 
 ```php
-$buildingNumber = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getBuildingNumber();
+$buildingNumber = $saudi->geo(24.65017630, 46.71670870)->getBuildingNumber();
 ```
 
 `getBuildingNumber()` aliases:  `buildingNumber()`.
@@ -204,7 +204,7 @@ $buildingNumber = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->get
     - parameter `24.65017630` represents latitude and parameter `46.71670870` represents longitude.
 
 ```php
-$postCode = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getPostCode();
+$postCode = $saudi->geo(24.65017630, 46.71670870)->getPostCode();
 ```
 
 `getPostCode()` aliases:  `postCode()`, `getZip()` and `zip()`.
@@ -214,7 +214,7 @@ $postCode = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getPostCo
     - parameter `24.65017630` represents latitude and parameter `46.71670870` represents longitude.
 
 ```php
-$additionalNumber = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getAdditionalNumber();
+$additionalNumber = $saudi->geo(24.65017630, 46.71670870)->getAdditionalNumber();
 ```
 
 `getAdditionalNumber()` aliases:  `additionalNumber()`.
