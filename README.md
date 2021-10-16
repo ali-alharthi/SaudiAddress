@@ -81,7 +81,7 @@ $regions = SaudiAddress::regions()->all('E')->get();
     - parameter `short` is the "short address".
 
 ```php
-$addresses = $saudi->address()->shortAddress('short', 1, 'E'); // return an array of address information
+$addresses = $saudi->address()->shortAddress('short', 'E'); // return an array of address information
 ```
 
 ----
