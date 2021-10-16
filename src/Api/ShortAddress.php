@@ -99,7 +99,7 @@ class ShortAddress extends Api
 
         }
 
-        return $this->response['Addresses'][0] ?? [];
+        return $this->response['Addresses'][0] ?? array();
     }
 
     /**
