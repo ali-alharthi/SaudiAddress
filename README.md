@@ -81,7 +81,7 @@ $regions = SaudiAddress::regions()->all('E')->get();
     - parameter `short` is the "short address".
 
 ```php
-$addresses = $saudi->address()->find('short', 1, 'E')->all(); // return an array of address information
+$addresses = $saudi->address()->shortAddress('short', 1, 'E'); // return an array of address information
 ```
 
 ----
@@ -92,8 +92,8 @@ $addresses = $saudi->address()->find('short', 1, 'E')->all(); // return an array
     - parameters `ECAB2823` and `RAHA3443` are the short addresses.
 
 ```php
-$verified = $saudi->address()->verify('ECAB2823', 'E'); // return true
-$verified = $saudi->address()->verify('RAHA3443', 'E'); // return false
+$verified = $saudi->address()->verifyShortAddress('ECAB2823', 'E'); // return true
+$verified = $saudi->address()->verifyShortAddress('RAHA3443', 'E'); // return false
 
 ```
 
