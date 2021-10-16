@@ -34,14 +34,14 @@ class Address extends Api
     /**
      * The cache directory.
      *
-     * @var  string|null
+     * @var  string
      */
     protected $cacheDir = __DIR__ . '/cache/';
 
     /**
      * The cache file name.
      *
-     * @var string|null
+     * @var string
      */
     protected $file = __DIR__ . '/cache/' . 'address_';
 
