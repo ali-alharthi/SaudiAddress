@@ -29,6 +29,7 @@ However, you need to add the following to the `config/services.php` file:
     'api_key' => env('SNA_API_KEY', null),
     'api_subscription' =>
     env('SNA_API_SUBSCRIPTION', 'Development'),
+    'locale' => env('SNA_CACHE', 'E'),
     'cache' => env('SNA_CACHE', true),
 ],
 ```
@@ -38,10 +39,16 @@ Then, append the following to the `.env` file:
 ```php
 SNA_API_KEY=YOUR-API-KEY-HERE
 SNA_API_SUBSCRIPTION=Development
+SNA_LOCALE=E
 SNA_CACHE=false
 ```
 
-Replace `YOUR-API-KEY-HERE` with your SNA API key, `Development` with your SNA subscription type and `SNA_CACHE` with true or false (enable/disable cache).
+```
+SNA_API_KEY             =>  SNA API key
+SNA_API_SUBSCRIPTION    =>  SNA subscription type
+SNA_LOCALE              =>  Language (E for English and A for Arabic)
+SNA_CACHE               =>  true or false (enable/disable cache).
+```
 
 After that you can use the facade: `AliAlharthi\SaudiAddress\Facades\SaudiAddress` to access the library.
 
@@ -52,8 +59,8 @@ After that you can use the facade: `AliAlharthi\SaudiAddress\Facades\SaudiAddres
 ``` php
 use AliAlharthi\SaudiAddress\SaudiAddress;
 
-$saudi = SaudiAddress::make('API-KEY', 'Subscription', false); // Cache is disabled
-$regions = $saudi->regions()->all('E')->get();
+$saudi = SaudiAddress::make('API-KEY', 'Subscription', 'E', false); // Cache is disabled
+$verified = $saudi->shortAddress('ECAB2823')->verify();
 ```
 
 ### Laravel:
@@ -61,14 +68,8 @@ $regions = $saudi->regions()->all('E')->get();
 ``` php
 use AliAlharthi\SaudiAddress\Facades\SaudiAddress;
 
-$regions = SaudiAddress::regions()->all('E')->get();
+$verified = SaudiAddress::shortAddress('ECAB2823')->verify();
 ```
-
-
-----
-
-
-***In the following examples, parameter `'E'` stands for English. Default language is Arabic `'A'`***
 
 
 
@@ -81,19 +82,26 @@ $regions = SaudiAddress::regions()->all('E')->get();
     - parameter `short` is the "short address".
 
 ```php
-$addresses = $saudi->address()->shortAddress('short', 'E'); // return an array of address information
+$addresses = $saudi->shortAddress('short'); // return an array of address information
 ```
 
 ----
 
+- Get the geo location from a short address:
+    - parameter `short` is the "short address".
 
-### :white_check_mark: Verify a Short Address
+```php
+$addresses = $saudi->shortAddress('short')->geo(); // return an array of long and lat information
+```
+
+----
+
 - Verify a Short Address.
     - parameters `ECAB2823` and `RAHA3443` are the short addresses.
 
 ```php
-$verified = $saudi->address()->verifyShortAddress('ECAB2823', 'E'); // return true
-$verified = $saudi->address()->verifyShortAddress('RAHA3443', 'E'); // return false
+$verified = $saudi->shortAddress('ECAB2823')->verify(); // return true
+$verified = $saudi->shortAddress('RAHA3443')->verify(); // return false
 
 ```
 
@@ -104,167 +112,6 @@ $verified = $saudi->address()->verifyShortAddress('RAHA3443', 'E'); // return fa
 
 
 ----
-
-
-
-### :earth_asia: Regions
-
-
-- Get all regions:
-
-```php
-$regions = $saudi->regions()->all('E')->get();
-```
-
-
-- Get a region by ID:
-
-```php
-$region = $saudi->regions()->all('E')->getId(2);
-```
-
-`getId()` aliases:  `byId()` and `id()`.
-
-
-- Get a region by Name:
-
-```php
-$region = $saudi->regions()->all('E')->getName('Dammam');
-```
-
-`getName()` aliases:  `byName()`, `name()` and `named()`.
-
-
-----
-
-
-### :earth_asia: Cities
-
-***using `-1` as the region ID (on the `all()` method - before the language parameter) or leaving it empty will get all the cities of Saudi Arabia***
-
-- Get all cities of Saudi Arabia:
-    - parameter `-1` is the region ID.
-
-```php
-$cities = $saudi->cities()->all(-1, 'E')->get();
-```
-
-
-- Get all cities of a region ID:
-    - parameter `3` is the region ID.
-
-```php
-$cities = $saudi->cities()->all(3, 'E')->get();
-```
-
-
-- Get a city by ID:
-
-```php
-$city = $saudi->cities()->all(-1, 'E')->getId(2);
-```
-
-`getId()` aliases:  `byId()` and `id()`.
-
-
-- Get a city by Name:
-
-```php
-$city = $saudi->cities()->all(-1, 'E')->getName('Dammam');
-```
-
-`getName()` aliases:  `byName()`, `name()` and `named()`.
-
-
-- Get a city by Governorate Name:
-
-```php
-$city = $saudi->cities()->all(-1, 'E')->getGov('Eastern Province');
-```
-
-`getGov()` aliases:  `byGovernorate()`, `byGov()` and `govName()`.
-
-
-----
-
-
-### :city_sunset: Districts
-
-
-- Get all districts from a city ID:
-    - parameter `13` is the city ID.
-
-```php
-$districts = $saudi->cities()->all(13, 'E')->get();
-```
-
-
-- Get a district by ID:
-    - parameter `13` is the city ID.
-
-```php
-$district = $saudi->cities()->all(13, 'E')->getId(2);
-```
-
-`getId()` aliases:  `byId()` and `id()`.
-
-
-- Get a district by Name:
-    - parameter `13` is the city ID.
-
-```php
-$district = $saudi->cities()->all(13, 'E')->getName('Dammam');
-```
-
-`getName()` aliases:  `byName()`, `name()` and `named()`.
-
-
-----
-
-
-### :convenience_store: Services
-
-
-- Get the service categories:
-
-```php
-$services = $saudi->services()->categories('E')->get();
-```
-
-`categories()` aliases:  `cat()` and `main()`.
-
-
-- Get the sub services of from a category ID:
-    - parameter `102` is the service category ID.
-
-```php
-$subServices = $saudi->services()->sub(102, 'E')->get();
-```
-
-`sub()` aliases:  `subCategories()` and `subServices()`.
-
-
-- Get a service category / sub service by ID:
-    - parameter `102` is the service category ID.
-    - parameter `10210` is the sub service ID.
-
-```php
-$service = $saudi->cities()->categories('E')->getId(102);
-$subservice = $saudi->cities()->sub(102, 'E')->getId(10210);
-```
-
-`getId()` aliases:  `byId()` and `id()`.
-
-
-- Get a service category / sub service by Name:
-    - parameter `102` is the service category ID.
-
-```php
-$service = $saudi->cities()->categories('E')->getName('Commercial');
-$subservice = $saudi->cities()->sub(120, 'E')->getName('Supermarket');
-```
-
-`getName()` aliases:  `byName()`, `name()`, `serviceName()` and `named()`.
 
 
 ----
@@ -382,7 +229,7 @@ $additionalNumber = $saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->g
     - parameter `address string` is the "search string" and parameter `1` is the page #.
 
 ```php
-$addresses = $saudi->address()->find('address string', 1, 'E')->all(); // return a list of addresses
+$addresses = $saudi->address()->find('address string', 1)->all(); // return a list of addresses
 ```
 
 ***if page is set to `1` the package will loop through the pages and combine the results***
@@ -400,8 +247,8 @@ $addresses = $saudi->address()->find('address string', 1, 'E')->all(); // return
     - parameters `2121` and `9999` are the additional numbers.
 
 ```php
-$verified = $saudi->address()->verify(8228, 12643, 2121, 'E'); // return true
-$verified = $saudi->address()->verify(9999, 99999, 9999, 'E'); // return false
+$verified = $saudi->address()->verify(8228, 12643, 2121); // return true
+$verified = $saudi->address()->verify(9999, 99999, 9999); // return false
 
 ```
 
