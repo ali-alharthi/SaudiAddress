@@ -53,11 +53,13 @@ class SaudiAddressServiceProvider extends ServiceProvider
 
             $apiKey = $config['api_key'] ?? null;
 
-            $apiSubscription = $config['api_subscription'] ?? null;
+            $apiSubscription = $config['api_subscription'] ?? 'Development';
+
+            $locale = $config['locale'] ?? 'E';
 
             $cache = $config['cache'] ?? null;
 
-            return new SaudiAddress($apiKey, $apiSubscription, $cache);
+            return new SaudiAddress($apiKey, $apiSubscription, $locale, $cache);
         });
 
         $this->app->alias('saudiaddress', SaudiAddress::class);
