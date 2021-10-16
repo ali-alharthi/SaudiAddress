@@ -29,7 +29,6 @@ class GeoTest extends FunctionalTestCase
     public function it_can_retrieve_an_address_from_geo_coordinates()
     {
         $request = $this->saudi->geo(24.65017630, 46.71670870);
-        $this->assertInstanceOf('AliAlharthi\\SaudiAddress\\Api\\Geo', $request);
         $this->assertNotEmpty($request->get());
         $this->assertIsArray($request->get());
     }
