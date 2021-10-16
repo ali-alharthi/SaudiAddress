@@ -1,9 +1,9 @@
 # Saudi National Address API
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/ali-alharthi/saudiaddress/simplistic.svg?style=flat)](https://packagist.org/packages/ali-alharthi/saudiaddress)
-[![Build Status](https://img.shields.io/scrutinizer/build/g/ali-alharthi/SaudiAddress//simplistic?style=flat)](https://scrutinizer-ci.com/g/ali-alharthi/SaudiAddress/build-status/master)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/ali-alharthi/saudiaddress.svg?style=flat)](https://packagist.org/packages/ali-alharthi/saudiaddress)
+[![Build Status](https://img.shields.io/scrutinizer/build/g/ali-alharthi/SaudiAddress/simplistic?style=flat)](https://scrutinizer-ci.com/g/ali-alharthi/SaudiAddress/build-status/master)
 [![Quality Score](https://img.shields.io/scrutinizer/quality/g/ali-alharthi/saudiaddress/simplistic.svg?style=flat)](https://scrutinizer-ci.com/g/ali-alharthi/saudiaddress)
-[![Total Downloads](https://img.shields.io/packagist/dt/ali-alharthi/saudiaddress/simplistic.svg?style=flat)](https://packagist.org/packages/ali-alharthi/saudiaddress)
+[![Total Downloads](https://img.shields.io/packagist/dt/ali-alharthi/saudiaddress.svg?style=flat)](https://packagist.org/packages/ali-alharthi/saudiaddress)
 
 SaudiAddress is a PHP package/library built to consume the Saudi National Address API ([api.address.gov.sa](api.address.gov.sa)). It makes it simple to use the main functions of the API.
 
