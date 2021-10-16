@@ -5,9 +5,9 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/ali-alharthi/saudiaddress.svg?style=flat)](https://scrutinizer-ci.com/g/ali-alharthi/saudiaddress)
 [![Total Downloads](https://img.shields.io/packagist/dt/ali-alharthi/saudiaddress.svg?style=flat)](https://packagist.org/packages/ali-alharthi/saudiaddress)
 
-SaudiAddress is a PHP package/library built to consume the Saudi National Address API ([api.address.gov.sa](api.address.gov.sa)). It makes it simple to use most of what the API has to offer.
+SaudiAddress is a PHP package/library built to consume the Saudi National Address API ([api.address.gov.sa](api.address.gov.sa)). It makes it simple to use the main functions of the API.
 
-You can for example retrieve regions, cities, districts, services and addresses from geo coordinates, verify an address and more!
+You can for example retrieve addresses from geo coordinates, verify an address and the new short address feature!
 
 
 ## Installation
