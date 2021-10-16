@@ -44,7 +44,15 @@ class Config implements ConfigInterface
     protected $apiSubscription;
 
     /**
-     * Enabling Cache
+     * Default locale.
+     * API only supports English and Arabic languages (API Default is Arabic)
+     *
+     * @var string
+     */
+    protected $locale = 'E';
+
+    /**
+     * Enabling Cache.
      *
      * @var bool
      */
@@ -55,11 +63,14 @@ class Config implements ConfigInterface
      *
      * @param   string  $apiKey
      * @param   string  $apiSubscription
+     * @param   string  $locale
+     * @param   bool    $cache
      */
-    public function __construct($apiKey, $apiSubscription = 'Development', $cache = false)
+    public function __construct($apiKey, $apiSubscription = 'Development', $locale = 'E', $cache = false)
     {
         $this->setApiKey($apiKey ?: self::getEnvVariable('SNA_API_KEY', ''));
         $this->setApiSubscription($apiSubscription);
+        $this->setLocale($locale);
         $this->setCache($cache);
     }
 
@@ -68,7 +79,7 @@ class Config implements ConfigInterface
      *
      * @param   string      $name
      * @param   string|null $default
-     * @return string|null
+     * @return  string|null
      */
     private static function getEnvVariable($name, $default = null)
     {
@@ -135,6 +146,29 @@ class Config implements ConfigInterface
     public function setApiSubscription($apiSubscription)
     {
         $this->apiSubscription = $apiSubscription;
+
+        return $this;
+    }
+
+    /**
+     * Returns the locale.
+     *
+     * @return  string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * Sets the locale.
+     *
+     * @param   string  $locale
+     * @return  Config
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
 
         return $this;
     }

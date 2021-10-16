@@ -20,6 +20,8 @@
 
 namespace AliAlharthi\SaudiAddress\Api;
 
+use AliAlharthi\SaudiAddress\ConfigInterface;
+
 interface ApiInterface
 {
     /**
@@ -30,12 +32,20 @@ interface ApiInterface
     public function baseUrl();
 
     /**
+     * Set the config.
+     *
+     * @param   \AliAlharthi\SaudiAddress\ConfigInterface  $config
+     */
+    public function setConfig(ConfigInterface $config);
+
+    /**
      * Executes the HTTP request.
      *
      * @param   string  $httpMethod
      * @param   string  $url
      * @param   array   $parameters
+     * @param   bool    $encode
      * @return  array
      */
-    public function execute($httpMethod, $url, $parameters = []);
+    public function execute($httpMethod, $url, array $parameters = [], bool $encode = true);
 }

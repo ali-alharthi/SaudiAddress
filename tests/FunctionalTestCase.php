@@ -38,6 +38,6 @@ class FunctionalTestCase extends \PHPUnit\Framework\TestCase
      */
     public function setUp(): void
     {
-        $this->saudi = new SaudiAddress('sna-api-key', 'Development');
+        $this->saudi = new SaudiAddress('sna-api-key', 'Development', 'E', true);
     }
 }

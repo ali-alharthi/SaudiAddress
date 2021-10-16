@@ -28,7 +28,7 @@ class GeoTest extends FunctionalTestCase
     /** @test */
     public function it_can_retrieve_an_address_from_geo_coordinates()
     {
-        $request = $this->saudi->geo()->coordinates(24.65017630, 46.71670870, 'E');
+        $request = $this->saudi->geo(24.65017630, 46.71670870);
         $this->assertInstanceOf('AliAlharthi\\SaudiAddress\\Api\\Geo', $request);
         $this->assertNotEmpty($request->get());
         $this->assertIsArray($request->get());
@@ -37,7 +37,7 @@ class GeoTest extends FunctionalTestCase
     /** @test */
     public function it_can_retrieve_a_city_from_geo_coordinates()
     {
-        $city = $this->saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getCity();
+        $city = $this->saudi->geo(24.65017630, 46.71670870)->getCity();
         $this->assertNotEmpty($city);
         $this->assertIsString($city);
     }
@@ -45,7 +45,7 @@ class GeoTest extends FunctionalTestCase
     /** @test */
     public function it_can_retrieve_an_address_one_from_geo_coordinates()
     {
-        $addressOne = $this->saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getAddressOne();
+        $addressOne = $this->saudi->geo(24.65017630, 46.71670870)->getAddressOne();
         $this->assertNotEmpty($addressOne);
         $this->assertIsString($addressOne);
     }
@@ -53,7 +53,7 @@ class GeoTest extends FunctionalTestCase
     /** @test */
     public function it_can_retrieve_an_address_two_from_geo_coordinates()
     {
-        $addressTwo = $this->saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getAddressTwo();
+        $addressTwo = $this->saudi->geo(24.65017630, 46.71670870)->getAddressTwo();
         $this->assertNotEmpty($addressTwo);
         $this->assertIsString($addressTwo);
     }
@@ -61,7 +61,7 @@ class GeoTest extends FunctionalTestCase
     /** @test */
     public function it_can_retrieve_a_street_name_from_geo_coordinates()
     {
-        $street = $this->saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getStreet();
+        $street = $this->saudi->geo(24.65017630, 46.71670870)->getStreet();
         $this->assertNotEmpty($street);
         $this->assertIsString($street);
     }
@@ -69,7 +69,7 @@ class GeoTest extends FunctionalTestCase
     /** @test */
     public function it_can_retrieve_a_region_from_geo_coordinates()
     {
-        $region = $this->saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getRegion();
+        $region = $this->saudi->geo(24.65017630, 46.71670870)->getRegion();
         $this->assertNotEmpty($region);
         $this->assertIsString($region);
     }
@@ -77,7 +77,7 @@ class GeoTest extends FunctionalTestCase
     /** @test */
     public function it_can_retrieve_a_district_from_geo_coordinates()
     {
-        $district = $this->saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getDistrict();
+        $district = $this->saudi->geo(24.65017630, 46.71670870)->getDistrict();
         $this->assertNotEmpty($district);
         $this->assertIsString($district);
     }
@@ -85,7 +85,7 @@ class GeoTest extends FunctionalTestCase
     /** @test */
     public function it_can_retrieve_a_building_number_from_geo_coordinates()
     {
-        $buildingNumber = $this->saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getBuildingNumber();
+        $buildingNumber = $this->saudi->geo(24.65017630, 46.71670870)->getBuildingNumber();
         $this->assertNotEmpty($buildingNumber);
         $this->assertIsString($buildingNumber);
     }
@@ -93,7 +93,7 @@ class GeoTest extends FunctionalTestCase
     /** @test */
     public function it_can_retrieve_a_post_code_from_geo_coordinates()
     {
-        $postCode = $this->saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getPostCode();
+        $postCode = $this->saudi->geo(24.65017630, 46.71670870)->getPostCode();
         $this->assertNotEmpty($postCode);
         $this->assertIsString($postCode);
     }
@@ -101,80 +101,9 @@ class GeoTest extends FunctionalTestCase
     /** @test */
     public function it_can_retrieve_an_additional_number_from_geo_coordinates()
     {
-        $additionalNumber = $this->saudi->geo()->coordinates(24.65017630, 46.71670870, 'E')->getAdditionalNumber();
+        $additionalNumber = $this->saudi->geo(24.65017630, 46.71670870)->getAdditionalNumber();
         $this->assertNotEmpty($additionalNumber);
         $this->assertIsString($additionalNumber);
     }
 
-    /** @test */
-    public function it_throws_an_exception_when_the_coordinates_method_is_not_called_before_getCity()
-    {
-        $this->expectException(\BadMethodCallException::class);
-        $this->expectExceptionMessage('You need to call coordinates() method first.');
-        $this->saudi->geo()->getCity();
-    }
-
-    /** @test */
-    public function it_throws_an_exception_when_the_coordinates_method_is_not_called_before_getAddressOne()
-    {
-        $this->expectException(\BadMethodCallException::class);
-        $this->expectExceptionMessage('You need to call coordinates() method first.');
-        $this->saudi->geo()->getAddressOne();
-    }
-
-    /** @test */
-    public function it_throws_an_exception_when_the_coordinates_method_is_not_called_before_getAddressTwo()
-    {
-        $this->expectException(\BadMethodCallException::class);
-        $this->expectExceptionMessage('You need to call coordinates() method first.');
-        $this->saudi->geo()->getAddressTwo();
-    }
-
-    /** @test */
-    public function it_throws_an_exception_when_the_coordinates_method_is_not_called_before_getStreet()
-    {
-        $this->expectException(\BadMethodCallException::class);
-        $this->expectExceptionMessage('You need to call coordinates() method first.');
-        $this->saudi->geo()->getStreet();
-    }
-
-    /** @test */
-    public function it_throws_an_exception_when_the_coordinates_method_is_not_called_before_getRegion()
-    {
-        $this->expectException(\BadMethodCallException::class);
-        $this->expectExceptionMessage('You need to call coordinates() method first.');
-        $this->saudi->geo()->getRegion();
-    }
-
-    /** @test */
-    public function it_throws_an_exception_when_the_coordinates_method_is_not_called_before_getDistrict()
-    {
-        $this->expectException(\BadMethodCallException::class);
-        $this->expectExceptionMessage('You need to call coordinates() method first.');
-        $this->saudi->geo()->getDistrict();
-    }
-
-    /** @test */
-    public function it_throws_an_exception_when_the_coordinates_method_is_not_called_before_getBuildingNumber()
-    {
-        $this->expectException(\BadMethodCallException::class);
-        $this->expectExceptionMessage('You need to call coordinates() method first.');
-        $this->saudi->geo()->getBuildingNumber();
-    }
-
-    /** @test */
-    public function it_throws_an_exception_when_the_coordinates_method_is_not_called_before_getPostCode()
-    {
-        $this->expectException(\BadMethodCallException::class);
-        $this->expectExceptionMessage('You need to call coordinates() method first.');
-        $this->saudi->geo()->getPostCode();
-    }
-
-    /** @test */
-    public function it_throws_an_exception_when_the_coordinates_method_is_not_called_before_getAdditionalNumber()
-    {
-        $this->expectException(\BadMethodCallException::class);
-        $this->expectExceptionMessage('You need to call coordinates() method first.');
-        $this->saudi->geo()->getAdditionalNumber();
-    }
 }

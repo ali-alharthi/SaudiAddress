@@ -71,6 +71,13 @@ class SaudiAddressTest extends \PHPUnit\Framework\TestCase
     }
 
     /** @test */
+    public function it_can_get_the_current_locale()
+    {
+        $locale = $this->saudi->getLocale();
+        $this->assertSame('E', $locale);
+    }
+
+    /** @test */
     public function it_can_create_requests()
     {
         $request = $this->saudi->regions()->all('E');
@@ -97,6 +104,6 @@ class SaudiAddressTest extends \PHPUnit\Framework\TestCase
         putenv('SNA_API_KEY');
         $saudi = new SaudiAddress();
         // to skip the cache
-        $saudi->regions()->all('test');
+        $saudi->regions();
     }
 }

@@ -20,19 +20,21 @@
 
 namespace AliAlharthi\SaudiAddress\Api;
 
+use AliAlharthi\SaudiAddress\ConfigInterface;
+
 class Address extends Api
 {
     /**
      * The response array.
      *
-     * @var array|null
+     * @var  array|null
      */
     protected $response = null;
 
     /**
      * The cache directory.
      *
-     * @var string|null
+     * @var  string|null
      */
     protected $cacheDir = __DIR__ . '/cache/';
 
@@ -44,23 +46,31 @@ class Address extends Api
     protected $file = __DIR__ . '/cache/' . 'address_';
 
     /**
-     * Returns a list of all the addresses from a string.
+     * Constructor.
+     *
+     * @param   \AliAlharthi\SaudiAddress\ConfigInterface  $config
+     */
+    public function __construct($config)
+    {
+        parent::__construct($config);
+    }
+
+    /**
+     * Free text address search.
      *
      * @param   string  $address
      * @param   int     $page
-     * @param   string  $lang
      * @return  Address
      */
-    public function find($address, $page = 1, $lang = 'A')
+    public function search($address, $page = 1)
     {
-        $cache = $this->file . preg_replace('/[^a-zA-Z0-9_]/', '_', $address) . '_' . strtolower($lang) . '.data';
+        $cache = $this->file . preg_replace('/[^a-zA-Z0-9_]/', '_', $address) . '_' . strtolower($this->config->getLocale()) . '.data';
 
         $this->response = $this->cacheValue($cache);
 
         if ($this->response == null) {
             $response = $this->_get(
                 'v4/Address/address-free-text',
-                $lang,
                 [
                     'addressstring' => $address,
                     'page' => $page,
@@ -78,13 +88,13 @@ class Address extends Api
                     ($this->config->getApiSubscription() == 'Development') ? sleep(5) : '';
                     $pageData = $this->_get(
                         'v4/Address/address-free-text',
-                        $lang,
                         [
                             'addressstring' => $address,
                             'page' => $i,
                         ],
                         false
                     );
+
                     $pageData = $pageData['Addresses'];
                     $pageData = array_combine(range(($i * 10), count($pageData) + (($i * 10) - 1)), array_values($pageData));
                     $addresses += $pageData;
@@ -96,10 +106,20 @@ class Address extends Api
                 file_put_contents($cache, serialize($addresses));
             }
             $this->response = $addresses;
-
         }
 
         return $this;
+    }
+    /**
+     * Constructor.
+     *
+     * @param   string  $address
+     * @param   int     $page
+     * @return  Address
+     */
+    public function find($address = null, $page = 1)
+    {
+        $this->search($address, $page);
     }
 
     /**
@@ -130,81 +150,33 @@ class Address extends Api
      * @param   int     $buildingNumber
      * @param   int     $zip
      * @param   int     $additionalNumber
-     * @param   string  $lang
      * @return  bool
      */
-    public function verify($buildingNumber, $zip, $additionalNumber, $lang = 'A')
+    public function verify($buildingNumber, $zip, $additionalNumber)
     {
-        $response = $this->_get(
-            'v3.1/Address/address-verify',
-            $lang,
-            [
-                'buildingnumber'    => $buildingNumber,
-                'zipcode'           => $zip,
-                'additionalnumber'  => $additionalNumber,
-            ]
-        );
+        $cache = $this->file . $buildingNumber . '_' .$zip . '_' .$additionalNumber . '_' . strtolower($this->config->getLocale()) . '.data';
+
+        $response = $this->cacheValue($cache);
+
+        if ($response == null) {
+
+            $response = $this->_get(
+                'v3.1/Address/address-verify',
+                [
+                    'buildingnumber'    => $buildingNumber,
+                    'zipcode'           => $zip,
+                    'additionalnumber'  => $additionalNumber,
+                ]
+            );
+        }
+
+        if($this->config->getCache()){
+            (!file_exists($this->cacheDir)) ?
+                mkdir($this->cacheDir, 0777, false) : ((file_exists($cache)) ? unlink($cache) : touch($cache));
+            file_put_contents($cache, serialize($response));
+        }
 
         return (bool) $response['addressfound'];
-    }
-
-
-    /**
-     * Short address to full address.
-     *
-     * @param   string  $shortAddress
-     * @param   string  $lang
-     * @return  array
-     */
-    public function shortAddress($shortAddress, $lang = 'A')
-    {
-        $this->checkShortAddressFormat($shortAddress);
-
-        $response = $this->_get(
-            'NationalAddressByShortAddress/NationalAddressByShortAddress',
-            $lang,
-            [
-                'shortaddress'      => $shortAddress,
-            ]
-        );
-
-        return $response['Addresses'][0] ?? [];
-    }
-
-    /**
-     * Verify short address.
-     *
-     * @param   string  $shortAddress
-     * @param   string  $lang
-     * @return  mix
-     */
-    public function verifyShortAddress($shortAddress, $lang = 'A')
-    {
-        $this->checkShortAddressFormat($shortAddress);
-
-        $response = $this->_get(
-            'NationalAddressByShortAddress/NationalAddressByShortAddress',
-            $lang,
-            [
-                'shortaddress'      => $shortAddress,
-            ]
-        );
-
-        return ((int) $response['totalSearchResults'] > 0);
-    }
-
-    /**
-     * Check if find() method was called first.
-     *
-     * @param   string  $shortAddress
-     * @return  void
-     * @throws  \AliAlharthi\SaudiAddress\Exception\SaudiAddressException
-     */
-    protected function checkShortAddressFormat($shortAddress)
-    {
-        if (!preg_match('/^[A-Z]{4}\d{4}$/', $shortAddress) > 0) {
-            throw new \AliAlharthi\SaudiAddress\Exception\SaudiAddressException("Incorrect short address format: should consists of 4 letters followed by 4 numbers.");
-        }
     }
 
     /**
@@ -216,7 +188,7 @@ class Address extends Api
     protected function check()
     {
         if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call find() method first.");
+            throw new \BadMethodCallException("You need to call search() or find() methods first.");
         }
     }
 }

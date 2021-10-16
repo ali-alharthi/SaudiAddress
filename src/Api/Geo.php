@@ -25,14 +25,14 @@ class Geo extends Api
     /**
      * The response array.
      *
-     * @var array|null
+     * @var  array|null
      */
     protected $response = null;
 
     /**
      * The cache directory.
      *
-     * @var string|null
+     * @var  string|null
      */
     protected $cacheDir = __DIR__ . '/cache/';
 
@@ -44,23 +44,23 @@ class Geo extends Api
     protected $file = __DIR__ . '/cache/' . 'geo_';
 
     /**
-     * Address reverse geo.
+     * Constructor.
      *
+     * @param   \AliAlharthi\SaudiAddress\ConfigInterface  $config
      * @param   string  $latitude
      * @param   string  $longitude
-     * @param   string  $lang
-     * @return  Geo
      */
-    public function coordinates($latitude, $longitude, $lang = 'A')
+    public function __construct($config, $latitude, $longitude)
     {
-        $cache = $this->file . $latitude . '_' . $longitude . '_' . strtolower($lang) . '.data';
+
+        parent::__construct($config);
+        $cache = $this->file . $latitude . '_' . $longitude . '_' . strtolower($this->config->getLocale()) . '.data';
 
         $this->response = $this->cacheValue($cache);
 
         if ($this->response == null) {
             $response = $this->_get(
                 'v3.1/Address/address-geocode',
-                $lang,
                 [
                     'lat'   => $latitude,
                     'long'  => $longitude
@@ -76,34 +76,8 @@ class Geo extends Api
             $this->response = $response;
         }
 
-        return $this;
     }
 
-    /**
-     * Address reverse geo.
-     *
-     * @param   string  $latitude
-     * @param   string  $longitude
-     * @param   string  $lang
-     * @return  array
-     */
-    public function coords($latitude, $longitude, $lang = 'A')
-    {
-        return $this->coordinates($latitude, $longitude, $lang);
-    }
-
-    /**
-     * Address reverse geo.
-     *
-     * @param   string  $latitude
-     * @param   string  $longitude
-     * @param   string  $lang
-     * @return  array
-     */
-    public function location($latitude, $longitude, $lang = 'A')
-    {
-        return $this->coordinates($latitude, $longitude, $lang);
-    }
 
     /**
      * Returns a the response.
@@ -112,9 +86,17 @@ class Geo extends Api
      */
     public function get()
     {
-        $this->check();
-
         return $this->response['Addresses'][0];
+    }
+
+    /**
+     * Returns a the response.
+     *
+     * @return  array
+     */
+    public function all()
+    {
+        return $this->get();
     }
 
     /**
@@ -124,8 +106,6 @@ class Geo extends Api
      */
     public function getCity()
     {
-        $this->check();
-
         return $this->response['Addresses'][0]['City'];
     }
 
@@ -146,8 +126,6 @@ class Geo extends Api
      */
     public function getAddressOne()
     {
-        $this->check();
-
         return $this->response['Addresses'][0]['Address1'];
     }
 
@@ -168,8 +146,6 @@ class Geo extends Api
      */
     public function getAddressTwo()
     {
-        $this->check();
-
         return $this->response['Addresses'][0]['Address2'];
     }
 
@@ -190,8 +166,6 @@ class Geo extends Api
      */
     public function getStreet()
     {
-        $this->check();
-
         return $this->response['Addresses'][0]['Street'];
     }
 
@@ -212,8 +186,6 @@ class Geo extends Api
      */
     public function getRegion()
     {
-        $this->check();
-
         return $this->response['Addresses'][0]['RegionName'];
     }
 
@@ -234,8 +206,6 @@ class Geo extends Api
      */
     public function getDistrict()
     {
-        $this->check();
-
         return $this->response['Addresses'][0]['District'];
     }
 
@@ -256,8 +226,6 @@ class Geo extends Api
      */
     public function getBuildingNumber()
     {
-        $this->check();
-
         return $this->response['Addresses'][0]['BuildingNumber'];
     }
 
@@ -278,8 +246,6 @@ class Geo extends Api
      */
     public function getPostCode()
     {
-        $this->check();
-
         return $this->response['Addresses'][0]['PostCode'];
     }
 
@@ -320,8 +286,6 @@ class Geo extends Api
      */
     public function getAdditionalNumber()
     {
-        $this->check();
-
         return $this->response['Addresses'][0]['AdditionalNumber'];
     }
 
@@ -335,16 +299,4 @@ class Geo extends Api
         return $this->getAdditionalNumber();
     }
 
-    /**
-     * Check if coordinates() method was called first.
-     *
-     * @return  void
-     * @throws  \BadMethodCallException
-     */
-    protected function check()
-    {
-        if ($this->response == null) {
-            throw new \BadMethodCallException("You need to call coordinates() method first.");
-        }
-    }
 }

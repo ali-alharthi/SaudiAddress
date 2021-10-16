@@ -57,6 +57,16 @@ abstract class Api implements ApiInterface
     }
 
     /**
+     * Set the config.
+     *
+     * @param   \AliAlharthi\SaudiAddress\ConfigInterface  $config
+     * @return  void
+     */
+    public function setConfig(ConfigInterface $config){
+        $this->config = $config;
+    }
+
+    /**
      * Returns the Saudi National Address API endpoint.
      *
      * @return  string
@@ -70,14 +80,13 @@ abstract class Api implements ApiInterface
      * Execute a get request.
      *
      * @param   string  $url
-     * @param   string  $lang
      * @param   array   $parameters
      * @param   bool    $encode
      * @return  null|array
      */
-    public function _get($url = null, $lang = 'A', $parameters = [], $encode = true)
+    public function _get($url = null, $parameters = [], $encode = true)
     {
-        return $this->execute('get', $url, $lang, $parameters, $encode);
+        return $this->execute('get', $url, $parameters, $encode);
     }
 
     /**
@@ -85,17 +94,16 @@ abstract class Api implements ApiInterface
      *
      * @param   string  $httpMethod
      * @param   string  $url
-     * @param   string  $lang
      * @param   array   $parameters
      * @param   bool    $encode
      * @return  null|array
      * @throws  AliAlharthi\SaudiAddress\Exception\Handler
      */
-    public function execute($httpMethod, $url, $lang = 'A', array $parameters = [], $encode = true)
+    public function execute($httpMethod, $url, $parameters = [], $encode = true)
     {
         try {
             $parameters['format'] = 'json';
-            $parameters['language'] = $lang;
+            $parameters['language'] = $this->config->getLocale();
             $parameters = http_build_query($parameters);
             $response = $this->getClient()->{$httpMethod}($url, ['query' => $parameters]);
 

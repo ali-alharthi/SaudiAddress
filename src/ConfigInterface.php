@@ -60,6 +60,21 @@ interface ConfigInterface
     public function setApiSubscription($apiSubscription);
 
     /**
+     * Returns the locale.
+     *
+     * @return  string
+     */
+    public function getLocale();
+
+    /**
+     * Sets the locale.
+     *
+     * @param   string  $locale
+     * @return  Config
+     */
+    public function setLocale($locale);
+
+    /**
      * Returns the cache status.
      *
      * @return  bool

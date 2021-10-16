@@ -27,7 +27,7 @@ class SaudiAddress
     /**
      * The package version.
      *
-     * @var string
+     * @var  string
      */
     const VERSION = 2.0;
 
@@ -44,9 +44,9 @@ class SaudiAddress
      * @param   string  $apiKey
      * @param   string  $apiSubscription
      */
-    public function __construct($apiKey = null, $apiSubscription = 'Development', $cache = false)
+    public function __construct($apiKey = null, $apiSubscription = 'Development', $locale = 'A', $cache = false)
     {
-        $this->config = new Config($apiKey, $apiSubscription, $cache);
+        $this->config = new Config($apiKey, $apiSubscription, $locale, $cache);
     }
 
     /**
@@ -56,9 +56,9 @@ class SaudiAddress
      * @param   string   $apiSubscription
      * @return  SaudiAddress
      */
-    public static function make($apiKey = null, $apiSubscription = 'Development', $cache = false)
+    public static function make($apiKey = null, $apiSubscription = 'Development', $locale = 'A', $cache = false)
     {
-        return new static($apiKey, $apiSubscription, $cache);
+        return new static($apiKey, $apiSubscription, $locale, $cache);
     }
 
     /**
@@ -87,7 +87,7 @@ class SaudiAddress
      * @param   \AliAlharthi\SaudiAddress\ConfigInterface   $config
      * @return  SaudiAddress
      */
-    public function setConfig(ConfigInterface $config)
+    public function setConfig(ConfigInterface $config, ...$params)
     {
         $this->config = $config;
 
@@ -120,29 +120,22 @@ class SaudiAddress
      * Dynamically handle missing methods.
      *
      * @param   string  $method
-     * @param   array   $parameters
+     * @param   mixed   $params
      * @return  \AliAlharthi\SaudiAddress\Api\ApiInterface
      */
-    public function __call($method, array $parameters)
-    {
-        return $this->getApiInstance($method);
-    }
-
-    /**
-     * Returns the Api class instance for the given method.
-     *
-     * @param   string  $method
-     * @return  \AliAlharthi\SaudiAddress\Api\ApiInterface
-     * @throws  \BadMethodCallException
-     */
-    protected function getApiInstance($method)
+    public function __call($method, $params)
     {
         $class = "\\AliAlharthi\SaudiAddress\\Api\\" . ucwords($method);
 
         if (class_exists($class) && !(new ReflectionClass($class))->isAbstract()) {
-            return new $class($this->config);
+            $obj = (new ReflectionClass($class))->newInstanceArgs(
+                array_merge([$this->config], $params));
+            // $obj->setConfig($this->config);
+            return $obj;
         }
 
         throw new \BadMethodCallException("Undefined method [{$method}] called.");
+
     }
+
 }
