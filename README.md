@@ -71,6 +71,42 @@ $regions = SaudiAddress::regions()->all('E')->get();
 ***In the following examples, parameter `'E'` stands for English. Default language is Arabic `'A'`***
 
 
+
+----
+
+
+### :mag: Short Address :new:
+
+- Get the full address using the Saudi short address:
+    - parameter `short` is the "short address".
+
+```php
+$addresses = $saudi->address()->find('short', 1, 'E')->all(); // return an array of address information
+```
+
+----
+
+
+### :white_check_mark: Verify a Short Address
+- Verify a Short Address.
+    - parameters `ECAB2823` and `RAHA3443` are the short addresses.
+
+```php
+$verified = $saudi->address()->verify('ECAB2823', 'E'); // return true
+$verified = $saudi->address()->verify('RAHA3443', 'E'); // return false
+
+```
+
+***Short address should consists of 4 letters followed by 4 numbers***
+```Example: ABCD1234```
+
+*An exception will be thrown if the incorrect short address was provided*
+
+
+----
+
+
+
 ### :earth_asia: Regions
 
 

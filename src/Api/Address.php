@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.3
+ * @version    2.0
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -131,7 +131,7 @@ class Address extends Api
      * @param   int     $zip
      * @param   int     $additionalNumber
      * @param   string  $lang
-     * @return  array
+     * @return  bool
      */
     public function verify($buildingNumber, $zip, $additionalNumber, $lang = 'A')
     {
@@ -146,6 +146,65 @@ class Address extends Api
         );
 
         return (bool) $response['addressfound'];
+    }
+
+
+    /**
+     * Short address to full address.
+     *
+     * @param   string  $shortAddress
+     * @param   string  $lang
+     * @return  array
+     */
+    public function shortAddress($shortAddress, $lang = 'A')
+    {
+        $this->checkShortAddressFormat($shortAddress);
+
+        $response = $this->_get(
+            'NationalAddressByShortAddress/NationalAddressByShortAddress',
+            $lang,
+            [
+                'shortaddress'      => $shortAddress,
+            ]
+        );
+
+        return $response['Addresses'][0] ?? [];
+    }
+
+    /**
+     * Verify short address.
+     *
+     * @param   string  $shortAddress
+     * @param   string  $lang
+     * @return  mix
+     */
+    public function verifyShortAddress($shortAddress, $lang = 'A')
+    {
+        $this->checkShortAddressFormat($shortAddress);
+
+        $response = $this->_get(
+            'NationalAddressByShortAddress/NationalAddressByShortAddress',
+            $lang,
+            [
+                'shortaddress'      => $shortAddress,
+            ]
+        );
+
+        return ((int) $response['totalSearchResults'] > 0);
+    }
+
+    /**
+     * Check if find() method was called first.
+     *
+     * @param   string  $shortAddress
+     * @return  void
+     * @throws  \AliAlharthi\SaudiAddress\Exception\SaudiAddressException
+     */
+    protected function checkShortAddressFormat($shortAddress)
+    {
+        if (!preg_match('/^[A-Z]{4}\d{4}$/', $shortAddress) > 0) {
+            throw new \AliAlharthi\SaudiAddress\Exception\SaudiAddressException("Incorrect short address format: should consists of 4 letters followed by 4 numbers.");
+        }
     }
 
     /**

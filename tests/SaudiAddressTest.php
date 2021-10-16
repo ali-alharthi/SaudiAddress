@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.3
+ * @version    2.0
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -20,7 +20,6 @@
 
 namespace AliAlharthi\SaudiAddress\Tests;
 
-// use Mockery as m;
 use AliAlharthi\SaudiAddress\SaudiAddress;
 
 class SaudiAddressTest extends \PHPUnit\Framework\TestCase
@@ -41,16 +40,6 @@ class SaudiAddressTest extends \PHPUnit\Framework\TestCase
     {
         $this->saudi = new SaudiAddress('sna-api-key', 'Development');
     }
-
-    // /**
-    //  * Close mockery.
-    //  *
-    //  * @return void
-    //  */
-    // public function tearDown(): void
-    // {
-    //     m::close();
-    // }
 
     /** @test */
     public function it_can_create_a_new_instance_using_the_make_method()
@@ -78,7 +67,7 @@ class SaudiAddressTest extends \PHPUnit\Framework\TestCase
     public function it_can_get_the_current_package_version()
     {
         $version = $this->saudi->getVersion();
-        $this->assertSame(1.3, $version);
+        $this->assertSame(2.0, $version);
     }
 
     /** @test */

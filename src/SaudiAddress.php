@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Saudi Address
- * @version    1.3
+ * @version    2.0
  * @author     Ali Alharthi
  * @license    MIT
  * @copyright  (c) 2020, Ali Alharthi
@@ -29,7 +29,7 @@ class SaudiAddress
      *
      * @var string
      */
-    const VERSION = 1.3;
+    const VERSION = 2.0;
 
     /**
      * The Config repository instance.
