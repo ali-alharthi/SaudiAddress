@@ -44,7 +44,7 @@ class SaudiAddress
      * @param   string  $apiKey
      * @param   string  $apiSubscription
      */
-    public function __construct($apiKey = null, $apiSubscription = 'Development', $locale = 'A', $cache = false)
+    public function __construct($apiKey = null, $apiSubscription = 'Development', $locale = 'E', $cache = false)
     {
         $this->config = new Config($apiKey, $apiSubscription, $locale, $cache);
     }
@@ -56,7 +56,7 @@ class SaudiAddress
      * @param   string   $apiSubscription
      * @return  SaudiAddress
      */
-    public static function make($apiKey = null, $apiSubscription = 'Development', $locale = 'A', $cache = false)
+    public static function make($apiKey = null, $apiSubscription = 'Development', $locale = 'E', $cache = false)
     {
         return new static($apiKey, $apiSubscription, $locale, $cache);
     }
